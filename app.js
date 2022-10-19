@@ -20,16 +20,20 @@ app.use(cors());
 
 app.use('/', indexRouter);
 
+app.use("/images", express.static("images"));
+
 //catch when request not match route
-app.use((req, res, next)=>{
-  const exception = new Error('Path not found');
+app.use((req, res, next) => {
+  const exception = new Error("Path not found");
   exception.status = 404;
-  next(exception)
-})
+  next(exception);
+});
+
+
 
 //customize express error handling middleware
-app.use((err, req, res, next)=>{
-  res.status(err.statusCode).send(err.message)
-})
+app.use((err, req, res, next) => {
+  res.status(err.statusCode || 500).send(err.message);
+});
 
 module.exports = app;
